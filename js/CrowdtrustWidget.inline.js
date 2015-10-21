@@ -29,28 +29,21 @@
 
     /////////////////////////////////////////material design////////////////////////
     //https://storage.googleapis.com/code.getmdl.io/1.0.5/material.min.js
-
-
-    var script_tag = document.createElement('script');
-    script_tag.setAttribute("type","text/javascript");
-    script_tag.setAttribute("src",
-        "https://storage.googleapis.com/code.getmdl.io/1.0.5/material.min.js");
-    if (script_tag.readyState) {
-        script_tag.onreadystatechange = function () { // For old versions of IE
-            if (this.readyState == 'complete' || this.readyState == 'loaded') {
-                scriptLoadHandler();
-            }
-        };
-    }
-    // Try to find the head, otherwise default to the documentElement
-    (document.getElementsByTagName("head")[0] || document.documentElement).appendChild(script_tag);
-
     /******** Called once jQuery has loaded ******/
     function scriptLoadHandler() {
         // Restore $ and window.jQuery to their previous values and store the
         // new jQuery in our local jQuery variable
         jQuery = window.jQuery.noConflict(true);
-        // Call our main function
+
+        jQuery(document).ready(function()
+        {
+            var s = document.createElement("script");
+            s.type = "text/javascript";
+            s.src = "https://storage.googleapis.com/code.getmdl.io/1.0.5/material.min.js";
+            // Use any selector
+            jQuery("head").append(s);
+            jQuery('#crowdtrust-widget-container').load('../html/widget.template.html');
+        });
         main();
     }
 
@@ -68,7 +61,7 @@
             var materialDesignLink = $("<link>", {
                 rel: "stylesheet",
                 type: "text/css",
-                href: "https://storage.googleapis.com/code.getmdl.io/1.0.5/material.indigo-pink.min.css"
+                href: "https://storage.googleapis.com/code.getmdl.io/1.0.5/material.blue_grey-indigo.min.css"
             });
             var materialDesignIconsLink = $("<link>", {
                 rel: "stylesheet",
@@ -79,12 +72,6 @@
             materialDesignLink.appendTo('head');
             materialDesignIconsLink.appendTo('head');
 
-            //will hit crowdtrust api to generate html
-            //var jsonp_url = "http://al.smeuh.org/cgi-bin/webwidget_tutorial.py?callback=?";
-            //$.getJSON(jsonp_url, function(data) {
-                //$('#crowdtrust-widget-container').html();
-                $('#crowdtrust-widget-container').load('../html/widget.template.html');
-            //});
         });
     }
 
